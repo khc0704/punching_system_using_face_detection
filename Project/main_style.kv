@@ -1,0 +1,406 @@
+#:import Factory kivy.factory.Factory
+
+ScreenManagement:
+    MainScreen:
+
+<MainScreen>:
+    title: "FinalProject"
+
+    GridLayout:
+        cols:1
+
+        Button:
+            text:"上下班打卡"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.Pop("clock")
+        Button:
+            id: displayDuty
+            text:"查詢上班記錄"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.Pop("displayDuty")
+
+        Button:
+            id: patch
+            text:"補打卡"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.Pop("patch")
+            disabled: True
+        
+        Button:
+            id: photo
+            text:"更新員工照片"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.Pop("photo")
+            disabled: True
+            
+        Button:
+            id: setting
+            text:"匯入員工資料"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.Pop("setting")
+            disabled: True
+            
+        Button:
+            id: access_out
+            text:"登出"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.leaveAccess()
+            disabled: True
+
+        Button:
+            id: access
+            text:"登入"
+            font_size:40
+            font_name:"msjh.ttc"
+            disabled: False
+            on_release: root.Pop("access")
+            
+        Button:
+            id: superadmin
+            text:"新增管理員"
+            font_size:40
+            font_name:"msjh.ttc"
+            on_release: root.Pop("superadmin")
+
+        
+
+<ClockBox>:
+    title: "FinalProject"
+    auto_dismiss: False
+    size_hint: 0.8, 0.8
+
+    GridLayout:
+        cols:1
+
+        KivyCamera:
+            id: camera
+
+        GridLayout:
+            cols:1
+
+            GridLayout:
+                cols:2
+
+                Label:
+                    id: date
+                    text: ""
+                    font_name: "msjh.ttc"
+                Label:
+                    id: time
+                    text: ""
+                    font_name: "msjh.ttc"
+
+            GridLayout:
+                cols:2
+
+                Button:
+                    text:"上班"
+                    font_size:40
+                    font_name:"msjh.ttc"
+                    on_release: root.bindAction("onDuty")
+
+                Button:
+                    text:"下班"
+                    font_size:40
+                    font_name:"msjh.ttc"
+                    on_release: root.bindAction("offDuty")
+
+            Button:
+                text:"取消"
+                font_size:40
+                font_name:"msjh.ttc"
+                on_release: root.doExit()
+
+
+<AccessBox>:
+    title: "FinalProject"
+    auto_dismiss: False
+    size_hint: 0.8, 0.8
+
+    GridLayout:
+        cols:1
+
+        KivyCamera:
+            id: camera
+
+        GridLayout:
+            cols:1
+
+            Button:
+                text:"管理員登入"
+                font_size:32
+                font_name:"msjh.ttc"
+                on_release: root.adminAccess()
+
+            Button:
+                text:"取消"
+                font_size:32
+                font_name:"msjh.ttc"
+                on_release: root.doExit()
+
+<PatchBox>:
+    title: "FinalProject"
+    auto_dismiss: False
+    size_hint: 0.8, 0.8
+
+    GridLayout:
+        cols:1
+
+        GridLayout:
+            cols:2
+            size_hint:0.5,0.5
+            Label:
+                text: "日期-格式YYYY/MM/DD(2021/01/01)"
+                font_name: "msjh.ttc"
+            TextInput:
+                id: date
+                font_size: 32
+            Label:
+                text: "時間-格式HH:MM:SS(23:30:59)"
+                font_name: "msjh.ttc"
+            TextInput:
+                id: time
+                font_size: 32
+            Label:
+                text: "員工id(手機)"
+                font_name: "msjh.ttc"
+            Spinner:
+                id: empId
+
+        GridLayout:
+            cols:2
+            Button:
+                text:"上班"
+                font_size:40
+                font_name: "msjh.ttc"
+                on_release: root.onDuty()
+
+            Button:
+                text:"下班"
+                font_size:40
+                font_name:"msjh.ttc"
+                on_release: root.offDuty()
+
+        GridLayout:
+            cols:1
+            Button:
+                text:"取消"
+                font_size:40
+                font_name:"msjh.ttc"
+                on_release: root.dismiss()
+
+<PhotoBox>:
+    title: "FinalProject"
+    auto_dismiss: False
+    size_hint: 0.8,0.8
+
+    GridLayout:
+        cols:1
+
+        KivyCamera:
+            id: camera
+        
+        GridLayout:
+            cols:1
+            row_default_height:40
+
+            Spinner:
+                id: empId
+
+            GridLayout:
+                cols: 2
+
+                Button:
+                    text:"拍照"
+                    font_size:40
+                    font_name:"msjh.ttc"
+                    on_release:root.capturePhoto()
+
+                Button:
+                    text:"取消"
+                    font_size:40
+                    font_name:"msjh.ttc"
+                    on_release: root.doexit()
+
+<SettingBox>:
+    title: "FinalProject"
+    auto_dismiss: False
+    size_hint: 0.5,0.5
+
+    GridLayout:
+        cols:1
+        Label:
+            text:"請點擊打開目錄後，修改emp_data.csv！\n儲存後再點擊上傳檔案即可同步到雲端資料庫~"
+            font_name:"msjh.ttc"
+        Button:
+            text:"打開目錄"
+            font_size:36
+            font_name:"msjh.ttc"
+            on_release: root.openExplorer()
+        Button:
+            text:"上傳檔案"
+            font_size:36
+            font_name:"msjh.ttc"
+            on_release: root.bindAction()
+        Button:
+            text:"取消"
+            font_size:36
+            font_name:"msjh.ttc"
+            on_release: root.dismiss()
+
+<SuperAdminBox>:
+    title: "FinalProject"
+    auto_dismiss: False
+    size_hint: 0.8,0.8
+
+    GridLayout:
+        cols:1
+
+        KivyCamera:
+            id: camera
+
+        GridLayout
+            cols:2
+            Label:
+                text: "超級密碼"
+                font_name: "msjh.ttc"
+            TextInput:
+                id:password
+                font_size:24
+                font_name:"msjh.ttc"
+            Label:
+                text: "電話(員工id)"
+                font_name: "msjh.ttc"
+            TextInput:
+                id:phone
+                font_size:24
+                font_name:"msjh.ttc"
+            Label:
+                text: "姓名"
+                font_name: "msjh.ttc"
+            TextInput:
+                id:username
+                font_size:24
+                font_name:"msjh.ttc"
+            Button:
+                text:"新增管理員"
+                font_size:36
+                font_name:"msjh.ttc"
+                on_release: root.uploadSuperAdmin()
+            Button:
+                text:"取消"
+                font_size:36
+                font_name:"msjh.ttc"
+                on_release: root.dismiss()
+
+<AlertBox>:
+    auto_dismiss:False
+    size_hint:0.5,0.5
+
+    GridLayout:
+        cols:1
+
+        Label:
+            id:alert_message
+            font_name:"msjh.ttc"
+        
+        Button:
+            size_hint: (1,0.2)
+            text:"確定"
+            font_name:"msjh.ttc"
+            on_release:root.dismiss()
+
+<YesNoBox>:
+    auto_dismiss:False
+    size_hint:0.3,0.5
+
+    GridLayout:
+        cols:1
+        Label:
+            text:root.message
+            font_name:"msjh.ttc"
+        
+        GridLayout:
+            cols:2
+            Button:
+                id:on_yes
+                size_hint: (1,0.2)
+                text:"確定"
+                font_name:"msjh.ttc"
+                on_release:root.do_action(root.on_yes)
+
+            Button:
+                id:on_no
+                size_hint: (1,0.2)
+                text:"取消"
+                font_name:"msjh.ttc"
+                on_release:root.dismiss()
+
+<ChooseIdBox>
+    auto_dismiss: False
+    size_hint: 0.6,0.6
+
+    GridLayout:
+        cols:1
+        row_default_height:40
+
+        Label:
+            text:"有多個符合的辨識，請手動輸入ID"
+            font_name:"msjh.ttc"
+            font_size:24
+
+        Spinner:
+            id:empId
+            on_text:root.set_parameters()
+
+        GridLayout:
+            cols: 2
+            Button:
+                text:"確定"
+                font_size:40
+                font_name:"msjh.ttc"
+                on_release:root.do_action(root.on_yes)
+            Button:
+                text:"取消"
+                font_size:40
+                font_name:"msjh.ttc"
+                on_release: root.dismiss()
+
+<DisplayDutyBox>
+    auto_dismiss: False
+    size_hint: 0.5,0.5
+
+    GridLayout:
+        cols:1
+        row_default_height:40
+
+        Label:
+            text: "日期-格式YYYY/MM/DD(2021/01/01)"
+            font_name: "msjh.ttc"
+        TextInput:
+            id: date
+            font_size: 32
+
+        Button:
+            text:"上班記錄"
+            font_size:24
+            font_name:"msjh.ttc"
+            on_release:root.callDisplay("on_duty")
+        Button:
+            text:"下班記錄"
+            font_size:24
+            font_name:"msjh.ttc"
+            on_release:root.callDisplay("off_duty")
+        Button:
+            text:"取消"
+            font_size:24
+            font_name:"msjh.ttc"
+            on_release: root.dismiss()
+
+        
