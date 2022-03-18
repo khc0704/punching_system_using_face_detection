@@ -1,1 +1,3 @@
 # punching_system_using_face_detection
+使用python的face_recognition套件去做臉部辨識，然後透過臉部辨識進行上下班的打卡
+！！只是一個DEMO系統
